@@ -1,0 +1,2 @@
+plots: https://colab.research.google.com/drive/1ukhtXIhlmK23qLCG5Wb2TaqMOmSUWatS?usp=sharing
+qualitative figures: https://docs.google.com/presentation/d/18UafLHaeC1c_XMslbCKPDF3cy5BFrDYe4u88jc-QrOE/edit?usp=sharing

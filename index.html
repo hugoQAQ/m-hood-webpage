@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revisiting Out-of-Distribution Detection in Real-time Object Detection</title>
+  <meta name="description" content="Paper webpage for Revisiting Out-of-Distribution Detection in Real-time Object Detection: From Benchmark Pitfalls to a New Mitigation Paradigm.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #1b1c20;
+      --muted: #4f5965;
+      --paper: #f4f0ea;
+      --card: #ffffff;
+      --accent: #d1793b;
+      --accent-dark: #9b4a1c;
+      --glow: rgba(209, 121, 59, 0.18);
+      --sky: #e4ecf6;
+      --line: rgba(27, 28, 32, 0.12);
+      --shadow: 0 24px 60px rgba(16, 24, 40, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "IBM Plex Sans", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at 10% 20%, #f8eee4 0%, transparent 45%),
+                  radial-gradient(circle at 90% 0%, #e8f0ff 0%, transparent 38%),
+                  var(--paper);
+      line-height: 1.7;
+      min-height: 100vh;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    body::before {
+      background: linear-gradient(120deg, rgba(255, 255, 255, 0.18), transparent 60%);
+    }
+
+    body::after {
+      background: radial-gradient(circle at 80% 85%, rgba(209, 121, 59, 0.15), transparent 55%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .page {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 24px 80px;
+    }
+
+    header {
+      position: relative;
+      background: var(--card);
+      border-radius: 28px;
+      padding: 48px 56px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .header-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 36px;
+      align-items: center;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      background: #fdf8f2;
+    }
+
+    h1 {
+      font-family: "Fraunces", serif;
+      font-size: clamp(2rem, 3.2vw, 3.3rem);
+      line-height: 1.15;
+      margin: 18px 0 22px;
+    }
+
+    .authors {
+      font-size: 1rem;
+      color: var(--muted);
+    }
+
+    .authors span {
+      display: inline-block;
+      margin-right: 10px;
+    }
+
+    .affiliations {
+      margin-top: 16px;
+      font-size: 0.92rem;
+      color: var(--muted);
+    }
+
+    .cta-row {
+      margin-top: 22px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .btn {
+      padding: 10px 20px;
+      border-radius: 999px;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn.primary {
+      background: var(--accent);
+      color: #fff;
+      box-shadow: 0 12px 22px rgba(209, 121, 59, 0.24);
+    }
+
+    .btn.secondary {
+      border: 1px solid var(--line);
+      color: var(--ink);
+      background: #fff;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(27, 28, 32, 0.12);
+    }
+
+    .hero-figure {
+      position: relative;
+      padding: 12px;
+      background: linear-gradient(140deg, #f9f4ec, #eef4ff);
+      border-radius: 24px;
+      box-shadow: inset 0 0 0 1px rgba(27, 28, 32, 0.08);
+    }
+
+    .hero-figure img {
+      width: 100%;
+      border-radius: 18px;
+      display: block;
+    }
+
+    nav {
+      margin-top: 32px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    nav a {
+      padding: 6px 14px;
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      font-size: 0.9rem;
+      color: var(--muted);
+      background: #fff;
+    }
+
+    nav a:hover {
+      color: var(--accent-dark);
+      border-color: rgba(209, 121, 59, 0.4);
+    }
+
+    main {
+      margin-top: 48px;
+      display: grid;
+      gap: 28px;
+    }
+
+    section {
+      background: var(--card);
+      border-radius: 24px;
+      padding: 36px 42px;
+      box-shadow: 0 16px 40px rgba(16, 24, 40, 0.08);
+      border: 1px solid rgba(27, 28, 32, 0.06);
+    }
+
+    h2 {
+      font-family: "Fraunces", serif;
+      font-size: 2rem;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      font-size: 1.2rem;
+      margin: 24px 0 12px;
+      color: var(--accent-dark);
+    }
+
+    p {
+      font-size: 1.02rem;
+      color: var(--muted);
+    }
+
+    .two-col {
+      display: grid;
+      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .stat {
+      padding: 16px;
+      border-radius: 16px;
+      background: var(--sky);
+      border: 1px solid rgba(27, 28, 32, 0.06);
+    }
+
+    .stat strong {
+      font-size: 1.4rem;
+      color: var(--ink);
+    }
+
+    .stat span {
+      display: block;
+      color: var(--muted);
+      margin-top: 6px;
+      font-size: 0.9rem;
+    }
+
+    .figure {
+      margin-top: 22px;
+      background: #f8f6f2;
+      border-radius: 20px;
+      padding: 16px;
+    }
+
+    .figure img {
+      width: 100%;
+      border-radius: 14px;
+      display: block;
+    }
+
+    .figure p {
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .pill {
+      background: #f5ede4;
+      border-radius: 999px;
+      padding: 6px 14px;
+      font-size: 0.9rem;
+      color: var(--accent-dark);
+    }
+
+    .resource-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 12px;
+    }
+
+    .resource-links a {
+      padding: 10px 18px;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      font-size: 0.95rem;
+      background: #fff;
+    }
+
+    .citation {
+      background: #111318;
+      color: #f4f2f0;
+      border-radius: 20px;
+      padding: 24px;
+      font-family: "IBM Plex Sans", monospace;
+      font-size: 0.92rem;
+      overflow-x: auto;
+      margin-top: 16px;
+    }
+
+    .note {
+      font-size: 0.9rem;
+      color: #d1b7a1;
+      margin-top: 10px;
+    }
+
+    footer {
+      margin-top: 48px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(18px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    [data-reveal].is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (max-width: 900px) {
+      header {
+        padding: 36px 28px;
+      }
+
+      .header-grid {
+        grid-template-columns: 1fr;
+      }
+
+      section {
+        padding: 28px 24px;
+      }
+
+      nav {
+        justify-content: flex-start;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .page {
+        padding: 24px 16px 60px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .cta-row {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header data-reveal>
+      <div class="header-grid">
+        <div>
+          <span class="tag">Paper Webpage</span>
+          <h1>Revisiting Out-of-Distribution Detection in Real-time Object Detection: From Benchmark Pitfalls to a New Mitigation Paradigm</h1>
+          <div class="authors">
+            <span>Changshun Wu<sup>1,*</sup></span>
+            <span>Weicheng He<sup>1,*</sup></span>
+            <span>Chih-Hong Cheng<sup>2,3</sup></span>
+            <span>Xiaowei Huang<sup>4</sup></span>
+            <span>Saddek Bensalem<sup>5</sup></span>
+          </div>
+          <div class="affiliations">
+            <div><sup>*</sup>Equal contribution</div>
+            <div><sup>1</sup> Universite Grenoble Alpes, Grenoble, France</div>
+            <div><sup>2</sup> Carl von Ossietzky University of Oldenburg, Oldenburg, Germany</div>
+            <div><sup>3</sup> Chalmers University of Technology, Gothenburg, Sweden</div>
+            <div><sup>4</sup> University of Liverpool, Liverpool, UK</div>
+            <div><sup>5</sup> CSX-AI, Grenoble, France</div>
+            <div>Correspondence: changshun.wu@univ-grenoble-alpes.fr</div>
+          </div>
+          <div class="cta-row">
+            <a class="btn primary" href="https://arxiv.org/pdf/2503.07330" target="_blank" rel="noreferrer">Paper (PDF)</a>
+            <a class="btn secondary" href="https://huggingface.co/datasets/HugoHE/m-hood-dataset" target="_blank" rel="noreferrer">Dataset</a>
+            <a class="btn secondary" href="https://huggingface.co/HugoHE/m-hood" target="_blank" rel="noreferrer">Model Weights</a>
+            <a class="btn secondary" href="https://huggingface.co/spaces/HugoHE/X-YOLOv10" target="_blank" rel="noreferrer">Explanation Tool</a>
+          </div>
+        </div>
+        <div class="hero-figure">
+          <img src="fig/figure1-v3.jpg" alt="Overview of OoD mitigation results" onerror="this.src='fig/figure1-v2.jpg'; this.onerror=null;">
+        </div>
+      </div>
+      <nav>
+        <a href="#abstract">Abstract</a>
+        <a href="#pitfalls">Benchmark Pitfalls</a>
+        <a href="#mitigation">Mitigation Paradigm</a>
+        <a href="#results">Results</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="abstract" data-reveal>
+        <h2>Abstract</h2>
+        <p>
+          Out-of-distribution (OoD) inputs pose a persistent challenge to deep learning models, often triggering overconfident predictions on non-target objects.
+          While prior work has primarily focused on refining scoring functions and adjusting test-time thresholds, such algorithmic improvements offer only incremental gains.
+          We argue that a rethinking of the entire development lifecycle is needed to mitigate these risks effectively.
+          This work addresses two overlooked dimensions of OoD detection in object detection.
+          First, we reveal fundamental flaws in widely used evaluation benchmarks: contrary to their design intent, up to 13% of objects in the OoD test sets actually belong to in-distribution classes, and vice versa.
+          These quality issues severely distort the reported performance of existing methods and contribute to their high false positive rates.
+          Second, we introduce a novel training-time mitigation paradigm that operates independently of external OoD detectors.
+          Instead of relying solely on post-hoc scoring, we fine-tune the detector using a carefully synthesized OoD dataset that semantically resembles in-distribution objects.
+          This process shapes a defensive decision boundary by suppressing objectness on OoD objects, leading to a 91% reduction in hallucination error of a YOLO model on BDD-100K.
+          Our methodology generalizes across detection paradigms such as YOLO, Faster R-CNN, and RT-DETR, and supports few-shot adaptation.
+          Together, these contributions offer a principled and effective way to reduce OoD-induced hallucination in object detectors.
+        </p>
+        <div class="pill-list">
+          <span class="pill">Object detection</span>
+          <span class="pill">OoD detection</span>
+          <span class="pill">Benchmark calibration</span>
+          <span class="pill">Objectness-guided fine-tuning</span>
+          <span class="pill">YOLO / Faster R-CNN / RT-DETR</span>
+        </div>
+      </section>
+
+      <section id="pitfalls" data-reveal>
+        <h2>Benchmark Pitfalls</h2>
+        <div class="two-col">
+          <div>
+            <p>
+              We diagnose quality issues in common OoD benchmarks used for object detection evaluation.
+              The analysis shows that OoD test sets contain a non-trivial fraction of in-distribution objects, while ID calibration sets may embed OoD objects.
+              These mismatches inflate false positives and obscure the true behavior of detector pipelines.
+            </p>
+            <div class="stat-grid">
+              <div class="stat">
+                <strong>13%</strong>
+                <span>OoD objects mislabeled as ID in standard tests</span>
+              </div>
+              <div class="stat">
+                <strong>91%</strong>
+                <span>Hallucination reduction with our mitigation strategy</span>
+              </div>
+              <div class="stat">
+                <strong>3x</strong>
+                <span>Detector families validated (YOLO, Faster R-CNN, RT-DETR)</span>
+              </div>
+            </div>
+          </div>
+          <div>
+            <div class="figure">
+              <img src="fig/id_in_ood.jpg" alt="ID objects in OoD test images" onerror="this.src='fig/id_in_ood.png'; this.onerror=null;">
+              <p><strong>Figure:</strong> OoD test images can still contain ID objects, undermining evaluation integrity.</p>
+            </div>
+            <div class="figure">
+              <img src="fig/ood_in_id.jpg" alt="OoD objects in ID calibration images" onerror="this.src='fig/ood_in_id.png'; this.onerror=null;">
+              <p><strong>Figure:</strong> ID calibration images can embed OoD objects that skew the decision boundary.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="mitigation" data-reveal>
+        <h2>New Mitigation Paradigm</h2>
+        <div class="two-col">
+          <div>
+            <h3>Objectness-guided fine-tuning</h3>
+            <p>
+              We synthesize OoD samples that remain semantically close to ID classes and use them during training.
+              The detector is fine-tuned to suppress objectness on these samples, effectively reshaping the boundary without relying on an external OoD detector.
+              The approach supports few-shot adaptation and scales across detection paradigms.
+            </p>
+            <h3>Key contributions</h3>
+            <p>
+              We provide an automated tool to build reliable evaluation sets and a defense mechanism that generalizes across detectors.
+              Additional insights come from explainability analyses and confidence shift tracking.
+            </p>
+          </div>
+          <div class="figure">
+            <img src="fig/method_position.png" alt="Mitigation pipeline overview" onerror="this.src='fig/pipeline.png'; this.onerror=null;">
+            <p><strong>Pipeline:</strong> Training-time mitigation shifts decision boundaries using structured OoD data.</p>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" data-reveal>
+        <h2>Results</h2>
+        <p>
+          The mitigation strategy leads to large reductions in hallucination errors across multiple detectors and datasets while maintaining strong ID performance.
+          The results below highlight improvements across model families and evaluation setups.
+        </p>
+        <div class="two-col">
+          <div class="figure">
+            <img src="fig/finetune_trend.jpg" alt="Fine-tuning trend" onerror="this.src='fig/finetune_trend_v2.jpg'; this.onerror=null;">
+            <p><strong>Trend:</strong> Fine-tuning with proximal OoD data reduces hallucinations steadily.</p>
+          </div>
+          <div class="figure">
+            <img src="fig/trade-off_mAP-recall.png" alt="Trade-off between mAP and recall" onerror="this.src='fig/newplot.png'; this.onerror=null;">
+            <p><strong>Trade-off:</strong> Detection quality remains stable while OoD errors drop.</p>
+          </div>
+        </div>
+        <div class="figure">
+          <img src="fig/qualitative.jpg" alt="Qualitative comparison" onerror="this.src='fig/qualitative2.jpg'; this.onerror=null;">
+          <p><strong>Qualitative:</strong> Fewer spurious detections across OoD scenes.</p>
+        </div>
+      </section>
+
+      <section id="citation" data-reveal>
+        <h2>Citation</h2>
+        <div class="citation">
+@inproceedings{wu2025revisiting,
+  title={Revisiting Out-of-Distribution Detection in Real-time Object Detection: From Benchmark Pitfalls to a New Mitigation Paradigm},
+  author={Changshun Wu and Weicheng He and Chih-Hong Cheng and Xiaowei Huang and Saddek Bensalem},
+  year={2025},
+  eprint={2503.07330v3},
+  archivePrefix={arXiv},
+  primaryClass={cs.CV},
+  url={https://arxiv.org/abs/2503.07330v3},
+}
+        </div>
+      </section>
+
+    </main>
+
+    <footer>
+      Built for the paper webpage. For updates or questions, contact changshun.wu@univ-grenoble-alpes.fr.
+    </footer>
+  </div>
+
+  <script>
+    const revealItems = document.querySelectorAll('[data-reveal]');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, index) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('is-visible'), index * 120);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    revealItems.forEach((item) => observer.observe(item));
+  </script>
+</body>
+</html>

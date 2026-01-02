@@ -1,0 +1,43 @@
+<mxfile host="65bd71144e" scale="2" border="0">
+    <diagram id="UePIYyP_ty2TheztFTJv" name="Page-1">
+        <mxGraphModel dx="344" dy="396" grid="0" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+            <root>
+                <mxCell id="0"/>
+                <mxCell id="1" parent="0"/>
+                <mxCell id="2" value="Define Target Categories" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;gradientDirection=west;fillColor=#d5e8d4;strokeColor=#82b366;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="71" width="300" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="3" value="Collect Images from Data Source" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeColor=#82b366;align=center;verticalAlign=middle;fontFamily=Times New Roman;fillColor=#d5e8d4;gradientDirection=west;textShadow=0;shadow=1;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="142" width="300" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="4" value="&amp;nbsp; Run YOLOE Inference" style="rhombus;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;rounded=1;strokeColor=#82b366;align=center;verticalAlign=middle;fontFamily=Times New Roman;fillColor=#d5e8d4;gradientDirection=west;textShadow=0;shadow=1;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="248" y="205" width="206" height="80" as="geometry"/>
+                </mxCell>
+                <mxCell id="5" value="Filter Images: Exclude ID Objects" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeColor=#82b366;align=center;verticalAlign=middle;fontFamily=Times New Roman;fillColor=#d5e8d4;gradientDirection=west;textShadow=0;shadow=1;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="307" width="300" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="6" value="Validate Results Manually" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeColor=#82b366;align=center;verticalAlign=middle;fontFamily=Times New Roman;fillColor=#d5e8d4;gradientDirection=west;textShadow=0;shadow=1;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="375" width="300" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="7" value="Export Curated&amp;nbsp; Dataset" style="rounded=1;whiteSpace=wrap;html=1;fontSize=18;strokeWidth=1;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;strokeColor=#82b366;align=center;verticalAlign=middle;fontFamily=Times New Roman;fillColor=#d5e8d4;gradientDirection=west;textShadow=0;shadow=1;labelBackgroundColor=none;gradientColor=#97d077;cloneable=1;" parent="1" vertex="1">
+                    <mxGeometry x="200" y="443" width="300" height="38" as="geometry"/>
+                </mxCell>
+                <mxCell id="8" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=18;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#000000;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;cloneable=1;" parent="1" source="2" target="3" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=18;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#000000;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;cloneable=1;" parent="1" source="3" target="4" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="10" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=18;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#000000;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;cloneable=1;" parent="1" source="4" target="5" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="11" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=18;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#000000;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;cloneable=1;" parent="1" source="5" target="6" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+                <mxCell id="12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;strokeWidth=1;fontSize=18;movable=1;resizable=1;rotatable=1;deletable=1;editable=1;locked=0;connectable=1;fontColor=#000000;textShadow=0;shadow=1;fontFamily=Times New Roman;labelBackgroundColor=none;fillColor=#d5e8d4;strokeColor=#82b366;gradientColor=#97d077;cloneable=1;" parent="1" source="6" target="7" edge="1">
+                    <mxGeometry relative="1" as="geometry"/>
+                </mxCell>
+            </root>
+        </mxGraphModel>
+    </diagram>
+</mxfile>

@@ -1,0 +1,52 @@
+<svg width="740" height="510" viewBox="0 0 740 510" xmlns="http://www.w3.org/2000/svg">
+<!--Title
+<text x="370" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#2c3e50">Prompt Template: YOLO Proxy Categories</text>
+-->
+
+<!-- Main Template Box -->
+<rect x="51" y="52" width="472" height="403" rx="8" fill="white" stroke="#3498db" stroke-width="2"/>
+
+<!-- Input Section -->
+<g transform="translate(60, 70)">
+    <text font-size="16" font-weight="bold" fill="#2c3e50">Input Format:</text>
+    
+    <!-- Training Categories -->
+
+    <g transform="translate(15, 15)">
+        <rect x="0" y="0" width="440" height="40" rx="5" fill="#ebf5fb"/>
+        <text x="15" y="25" font-weight="bold">Training categories:</text>
+        <text x="170" y="25" font-style="italic">[List of categories]</text>
+    </g>
+    <!-- Candidate Categories -->
+    <g transform="translate(15, 65)">
+        <rect x="0" y="0" width="440" height="40" rx="5" fill="#ebf5fb"/>
+        <text x="15" y="25" font-weight="bold">Candidate proximal categories:</text>
+        <text x="235" y="25" font-style="italic">[List of candidate categories]</text>
+    </g>
+</g>
+
+<!-- Requirements Section -->
+<g transform="translate(60, 200)">
+    <text font-size="16" font-weight="bold" fill="#2c3e50">Requirements:</text>
+    <g transform="translate(15, 15)">
+        <rect x="0" y="0" width="440" height="95" rx="5" fill="#eafaf1"/>
+        <text x="15" y="20">• Do not overlap with the training categories</text>
+        <text x="15" y="40">• Select conceptually related or visually similar objects</text>
+        <text x="15" y="60">• Reuse proxies for similar categories if appropriate</text>
+        <text x="15" y="80">• Provide a brief explanation if the proxy selection is not obvious</text>
+    </g>
+</g>
+
+<!-- Output Format Section -->
+<g transform="translate(60, 335)">
+    <text font-size="16" font-weight="bold" fill="#2c3e50">Output Format:</text>
+    <g transform="translate(15, 15)">
+        <rect x="0" y="0" width="440" height="100" rx="5" fill="#fef5e7"/>
+        <text x="15" y="20" font-weight="bold">Return results as a structured mapping:</text>
+        <text x="15" y="45" font-family="monospace">{</text>
+        <text x="30" y="45" font-family="monospace">&lt;training_category&gt;: </text>
+        <text x="30" y="65" font-family="monospace">[&lt;Proximal Category1&gt;, &lt;Proximal Category2&gt;, ...],</text>
+        <text x="15" y="85" font-family="monospace">...}</text>
+    </g>
+</g>
+</svg>
